@@ -7,13 +7,13 @@ import requests
 data = yf.download("BTC-USD", period="5d", interval="1d")
 precio_actual = data["Close"].iloc[-1].item()
 
-# 2. Prompt con el reporte técnico y el veredicto operativo obligatorio
+# 2. Prompt forzado a elegir obligatoriamente entre COMPRAR o VENDER (modo prueba en demo)
 prompt = f"""
 Analiza el precio actual de Bitcoin (BTC-USD) que es {precio_actual}. 
 Proporciona un reporte técnico corto para trading que incluya:
 - Tendencia actual.
 - Niveles clave de soporte y resistencia.
-- AL FINAL, añade obligatoriamente un apartado titulado "VEREDICTO OPERATIVO" donde indiques claramente si las condiciones sugieren: **COMPRAR**, **VENDER** o **ESPERAR**.
+- AL FINAL, añade obligatoriamente un apartado titulado "VEREDICTO OPERATIVO" donde elijas OBLIGATORIAMENTE únicamente una de estas dos opciones: **COMPRAR** o **VENDER** (no uses "ESPERAR" ni opciones intermedias; inclínate por el escenario más probable según el contexto actual y explica brevemente por qué).
 """
 
 # 3. Consultar a Gemini usando la librería oficial google-genai
@@ -31,7 +31,8 @@ url = f"https://api.telegram.org/bot{token}/sendMessage"
 
 payload = {
     "chat_id": chat_id,
-    "text": f"🪙 **Reporte Bitcoin (BTC/USD)**\n\n{analisis}",
+    "text": f"🪙 **Reporte Bitcoin (BTC/USD) - Modo Demo**\n\n{analisis}",
     "parse_mode": "Markdown"
 }
 requests.post(url, json=payload)
+
